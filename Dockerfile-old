@@ -1,0 +1,5 @@
+FROM tomcat:9-jre8-alpine
+ADD target/bananapp-264116-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+CMD chmod +x /usr/local/tomcat/bin/catalina.sh
+CMD ["catalina.sh", "run"]
+
