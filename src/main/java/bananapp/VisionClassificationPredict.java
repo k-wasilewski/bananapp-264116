@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class VisionClassificationPredict {
-
+  /*
   public static void main(String[] args) throws IOException {
     // TODO(developer): Replace these variables before running the sample.
     String projectId = "bananapp-264116";
@@ -51,5 +51,5 @@ class VisionClassificationPredict {
                 "Predicted class score: %.2f\n", annotationPayload.getClassification().getScore());
       }
     }
-  }
+  }*/
 }

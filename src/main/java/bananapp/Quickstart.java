@@ -76,6 +76,6 @@ public class Quickstart {
         //ListModels.listModels();
 
         System.out.println("Prediction:---------------------------------------------------------");
-        VisionClassificationPredict.main(new String[0]);
+        //VisionClassificationPredict.main(new String[0]);
     }
 }
