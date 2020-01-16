@@ -21,6 +21,8 @@ public class ImageController extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        System.out.println("post received at backend8080");
+
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
