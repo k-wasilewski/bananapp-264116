@@ -2,7 +2,9 @@ package bananapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +21,12 @@ import javax.servlet.http.Part;
 public class ImageController extends HttpServlet {
 
     @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        System.out.println("get received at backend8082");
+    }
+
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         System.out.println("post received at backend8082");
@@ -26,8 +34,9 @@ public class ImageController extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        String applicationPath = request.getServletContext().getRealPath("");
-        String uploadFilePath = applicationPath + File.separator + "uploads";
+        String APP_PATH = "/home/kuba/Desktop/CodersLab/bananapp-264116";
+        String uploadFilePath = APP_PATH + File.separator + "uploads";
+        System.out.println("upload file path: "+ uploadFilePath);
 
         File uploadFolder = new File(uploadFilePath);
         if (!uploadFolder.exists()) {
@@ -40,20 +49,28 @@ public class ImageController extends HttpServlet {
         for (Part part : request.getParts()) {
             if (part != null && part.getSize() > 0) {
                 String fileName = part.getSubmittedFileName();
+                System.out.println("file name: "+fileName);
                 String contentType = part.getContentType();
 
-                // allows only JPEG files to be uploaded
-                if (!contentType.equalsIgnoreCase("image/jpg")) {
+                // allows only JPG files to be uploaded
+                if (!contentType.equalsIgnoreCase("image/jpeg")) {
+                    System.out.println("file type not supported");
                     continue;
                 }
+                System.out.println("content type: "+contentType);
 
-                part.write(uploadFilePath + File.separator + fileName);
+                //part.write(uploadFilePath + File.separator + fileName);
+                InputStream fileContent = part.getInputStream();
+                File dir = new File(uploadFilePath + File.separator + fileName);
+                Files.copy(fileContent, dir.toPath());
 
-                writer.append("File successfully uploaded to "
+                writer.println("File successfully uploaded to "
                         + uploadFolder.getAbsolutePath()
                         + File.separator
-                        + fileName
-                        + "<br>\r\n");
+                        + fileName);
+                writer.close();
+                writer.flush();
+
             }
         }
 
