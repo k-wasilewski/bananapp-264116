@@ -24,12 +24,15 @@ class VisionClassificationPredict {
     String filePath = "/home/kuba/Downloads/b.jpg";
     predict(projectId, modelId, filePath);
   }
+  */
 
-  static void predict(String projectId, String modelId, String filePath) throws IOException {
+  static Double[] predict(String projectId, String modelId, String filePath) throws IOException {
     // Initialize client that will be used to send requests. This client only needs to be created
     // once, and can be reused for multiple requests. After completing all of your requests, call
     // the "close" method on the client to safely clean up any remaining background resources.
+    Double[] prediction = new Double[2];
     try (PredictionServiceClient client = PredictionServiceClient.create()) {
+
       // Get the full path of the model.
       ModelName name = ModelName.of(projectId, "us-central1", modelId);
       ByteString content = ByteString.copyFrom(Files.readAllBytes(Paths.get(filePath)));
@@ -45,11 +48,18 @@ class VisionClassificationPredict {
 
       PredictResponse response = client.predict(predictRequest);
 
+      /*
       for (AnnotationPayload annotationPayload : response.getPayloadList()) {
         System.out.format("Predicted class name: %s\n", annotationPayload.getDisplayName());
         System.out.format(
                 "Predicted class score: %.2f\n", annotationPayload.getClassification().getScore());
       }
+       */
+      for (AnnotationPayload annotationPayload : response.getPayloadList()) {
+        prediction[0] = Double.parseDouble(annotationPayload.getDisplayName());
+        prediction[1] = (double) annotationPayload.getClassification().getScore();
+      }
     }
-  }*/
+    return prediction;
+  }
 }

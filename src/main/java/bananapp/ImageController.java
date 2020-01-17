@@ -19,6 +19,8 @@ import javax.servlet.http.Part;
         maxRequestSize = 20971520L // 20 MB
 )
 public class ImageController extends HttpServlet {
+    String projectId = "bananapp-264116";
+    String modelId = "ICN1230199579853455360";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -61,13 +63,13 @@ public class ImageController extends HttpServlet {
 
                 //part.write(uploadFilePath + File.separator + fileName);
                 InputStream fileContent = part.getInputStream();
-                File dir = new File(uploadFilePath + File.separator + fileName);
+                String filePath = uploadFilePath + File.separator + fileName;
+                File dir = new File(filePath);
                 Files.copy(fileContent, dir.toPath());
 
-                writer.println("File successfully uploaded to "
-                        + uploadFolder.getAbsolutePath()
-                        + File.separator
-                        + fileName);
+                //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
+                Double[] prediction = {3.0, 0.77};
+                writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]);
                 writer.close();
                 writer.flush();
 
