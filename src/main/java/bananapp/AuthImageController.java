@@ -32,7 +32,8 @@ public class AuthImageController extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        String uname = UsernameController.getUsername();
+        //String uname = UsernameController.getUsername();
+        String uname = request.getParameter("uname");
 
         System.out.println("post received at auth backend8082");
 
