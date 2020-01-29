@@ -40,7 +40,7 @@ public class AuthImageController extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        String APP_PATH = "/home/kuba/Desktop/CodersLab/bananapp-264116";
+        String APP_PATH = "/home/kuba/Desktop/CodersLab/spring-and-react/target/classes/public/auth";
         String uploadFilePath = APP_PATH + File.separator + uname;
         System.out.println("upload file path: "+ uploadFilePath);
 
