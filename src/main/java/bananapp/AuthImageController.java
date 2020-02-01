@@ -20,8 +20,8 @@ import bananapp.UsernameController;
         maxRequestSize = 20971520L // 20 MB
 )
 public class AuthImageController extends HttpServlet {
-    String projectId = "bananapp-264116";
-    String modelId = "ICN1230199579853455360";
+    String projectId = "bananapp-266908";
+    String modelId = "ICN595543876115103744";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)

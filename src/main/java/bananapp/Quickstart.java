@@ -39,8 +39,11 @@ public class Quickstart {
         System.out.println("Credentials:--------------------------------------------------------------------");
         System.out.println(credentials);
 
+        System.out.println("Models:---------------------------------------------------------------");
+        ListModels.listModels();
+
         StorageOptions storageOptions = StorageOptions.newBuilder()
-                .setProjectId("bananapp-264116")
+                .setProjectId("bananapp-266908")
                 .setCredentials(GoogleCredentials.fromStream(new
                         FileInputStream("/home/kuba/Desktop/bananas/settings/bananapp-264116-0483d7ffaad7.json"))).build();
 
@@ -49,7 +52,8 @@ public class Quickstart {
         GoogleCredential credential =
                 GoogleCredential.getApplicationDefault()
                         .createScoped(Collections.singleton(IamScopes.CLOUD_PLATFORM));
-
+        System.out.println("------------CREDENTIAL-------------");
+        System.out.println(credential);
         // Create the Cloud IAM service object
         Iam service =
                 new Iam.Builder(
@@ -58,7 +62,8 @@ public class Quickstart {
                         credential)
                         .setApplicationName("quickstart")
                         .build();
-
+        System.out.println("--------service----------");
+        System.out.println(service);
         // Call the Cloud IAM Roles API
         ListRolesResponse response = service.roles().list().execute();
         List<Role> roles = response.getRoles();
@@ -72,8 +77,7 @@ public class Quickstart {
             System.out.println();
         }
 
-        //System.out.println("Models:---------------------------------------------------------------");
-        //ListModels.listModels();
+
 
         System.out.println("Prediction:---------------------------------------------------------");
         //VisionClassificationPredict.main(new String[0]);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +20,8 @@ import javax.servlet.http.Part;
         maxRequestSize = 20971520L // 20 MB
 )
 public class ImageController extends HttpServlet {
-    String projectId = "bananapp-264116";
-    String modelId = "ICN1230199579853455360";
+    String projectId = "bananapp-266908";
+    String modelId = "ICN595543876115103744";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -69,6 +70,8 @@ public class ImageController extends HttpServlet {
 
                 //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
                 Double[] prediction = {3.0, 0.77};
+                System.out.println("prediction done"+ Arrays.asList(prediction));
+                //try{Quickstart.GetData();} catch (Exception e) {}
                 writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]);
                 writer.close();
                 writer.flush();

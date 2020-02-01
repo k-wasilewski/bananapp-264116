@@ -43,11 +43,11 @@ class VisionClassificationPredict {
                       .setName(name.toString())
                       .setPayload(payload)
                       .putParams(
-                              "score_threshold", "0.8") // [0.0-1.0] Only produce results higher than this value
+                              "score_threshold", "0.1") // [0.0-1.0] Only produce results higher than this value
                       .build();
-
+      System.out.println("gcp request:"+predictRequest);
       PredictResponse response = client.predict(predictRequest);
-
+      System.out.println("gcp response:"+response);
       /*
       for (AnnotationPayload annotationPayload : response.getPayloadList()) {
         System.out.format("Predicted class name: %s\n", annotationPayload.getDisplayName());
