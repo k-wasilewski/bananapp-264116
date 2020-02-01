@@ -12,6 +12,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -55,11 +57,21 @@ class VisionClassificationPredict {
                 "Predicted class score: %.2f\n", annotationPayload.getClassification().getScore());
       }
        */
-      for (AnnotationPayload annotationPayload : response.getPayloadList()) {
-        prediction[0] = Double.parseDouble(annotationPayload.getDisplayName());
-        prediction[1] = (double) annotationPayload.getClassification().getScore();
-      }
+      System.out.println("that's the one: "+response.getPayload(0));
+
+        prediction[0] = Double.parseDouble(response.getPayload(0).getDisplayName());
+        Double prediction1 = (double) response.getPayload(0).getClassification().getScore();
+        prediction[1] = round(prediction1, 2);
+
     }
     return prediction;
+  }
+
+  public static double round(double value, int places) {
+    if (places < 0) throw new IllegalArgumentException();
+
+    BigDecimal bd = BigDecimal.valueOf(value);
+    bd = bd.setScale(places, RoundingMode.HALF_UP);
+    return bd.doubleValue();
   }
 }
