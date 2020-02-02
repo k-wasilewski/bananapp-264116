@@ -45,7 +45,7 @@ class VisionClassificationPredict {
                       .setName(name.toString())
                       .setPayload(payload)
                       .putParams(
-                              "score_threshold", "0.1") // [0.0-1.0] Only produce results higher than this value
+                              "score_threshold", "0.0") // [0.0-1.0] Only produce results higher than this value
                       .build();
       System.out.println("gcp request:"+predictRequest);
       PredictResponse response = client.predict(predictRequest);
@@ -59,10 +59,15 @@ class VisionClassificationPredict {
        */
       System.out.println("that's the one: "+response.getPayload(0));
 
-        prediction[0] = Double.parseDouble(response.getPayload(0).getDisplayName());
-        Double prediction1 = (double) response.getPayload(0).getClassification().getScore();
-        prediction[1] = round(prediction1, 2);
-
+      prediction[0] = Double.parseDouble(response.getPayload(0).getDisplayName());
+      Double prediction1 = (double) response.getPayload(0).getClassification().getScore();
+      prediction[1] = round(prediction1, 2);
+      for (AnnotationPayload onePayload : response.getPayloadList()) {
+        if (onePayload.getClassification().getScore() > prediction[1]) {
+          prediction[1] = round(onePayload.getClassification().getScore(), 2);
+          prediction[0] = Double.parseDouble(onePayload.getDisplayName());
+        }
+      }
     }
     return prediction;
   }
