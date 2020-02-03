@@ -14,7 +14,6 @@ public class UsernameController extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        System.out.println("received at 8082: "+request);
         this.username = request.getParameter("uname");
     }
 

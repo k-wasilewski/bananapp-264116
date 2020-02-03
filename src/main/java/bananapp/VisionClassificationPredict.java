@@ -18,15 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class VisionClassificationPredict {
-  /*
-  public static void main(String[] args) throws IOException {
-    // TODO(developer): Replace these variables before running the sample.
-    String projectId = "bananapp-264116";
-    String modelId = "ICN1230199579853455360";
-    String filePath = "/home/kuba/Downloads/b.jpg";
-    predict(projectId, modelId, filePath);
-  }
-  */
 
   static Double[] predict(String projectId, String modelId, String filePath) throws IOException {
     // Initialize client that will be used to send requests. This client only needs to be created
@@ -47,17 +38,8 @@ class VisionClassificationPredict {
                       .putParams(
                               "score_threshold", "0.0") // [0.0-1.0] Only produce results higher than this value
                       .build();
-      System.out.println("gcp request:"+predictRequest);
+
       PredictResponse response = client.predict(predictRequest);
-      System.out.println("gcp response:"+response);
-      /*
-      for (AnnotationPayload annotationPayload : response.getPayloadList()) {
-        System.out.format("Predicted class name: %s\n", annotationPayload.getDisplayName());
-        System.out.format(
-                "Predicted class score: %.2f\n", annotationPayload.getClassification().getScore());
-      }
-       */
-      System.out.println("that's the one: "+response.getPayload(0));
 
       prediction[0] = Double.parseDouble(response.getPayload(0).getDisplayName());
       Double prediction1 = (double) response.getPayload(0).getClassification().getScore();

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import bananapp.UsernameController;
 
 @WebServlet(name = "AuthImageController", value = "/auth/image")
 @MultipartConfig(fileSizeThreshold = 6291456, // 6 MB
@@ -24,25 +23,15 @@ public class AuthImageController extends HttpServlet {
     String modelId = "ICN595543876115103744";
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        System.out.println("get received at auth backend8082");
-    }
-
-    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        //String uname = UsernameController.getUsername();
         String uname = request.getParameter("uname");
-
-        System.out.println("post received at auth backend8082");
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
         String APP_PATH = "/home/kuba/Desktop/CodersLab/spring-and-react/target/classes/public/auth";
         String uploadFilePath = APP_PATH + File.separator + uname;
-        System.out.println("upload file path: "+ uploadFilePath);
 
         File uploadFolder = new File(uploadFilePath);
         if (!uploadFolder.exists()) {
@@ -55,17 +44,16 @@ public class AuthImageController extends HttpServlet {
         for (Part part : request.getParts()) {
             if (part != null && part.getSize() > 0) {
                 String fileName = part.getSubmittedFileName();
-                System.out.println("file name: "+fileName);
                 String contentType = part.getContentType();
 
                 // allows only JPG files to be uploaded
                 if (!contentType.equalsIgnoreCase("image/jpeg")) {
-                    System.out.println("file type not supported");
+                    writer.println("fail");
+                    writer.close();
+                    writer.flush();
                     continue;
                 }
-                System.out.println("content type: "+contentType);
 
-                //part.write(uploadFilePath + File.separator + fileName);
                 InputStream fileContent = part.getInputStream();
                 String filePath = uploadFilePath + File.separator + fileName;
                 File dir = new File(filePath);
@@ -76,7 +64,6 @@ public class AuthImageController extends HttpServlet {
                 writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]+",filename:"+fileName+"END");
                 writer.close();
                 writer.flush();
-
             }
         }
     }

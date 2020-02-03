@@ -24,22 +24,13 @@ public class ImageController extends HttpServlet {
     String modelId = "ICN595543876115103744";
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        System.out.println("get received at backend8082");
-    }
-
-    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        System.out.println("post received at backend8082");
-
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
         String APP_PATH = "/home/kuba/Desktop/CodersLab/bananapp-264116";
         String uploadFilePath = APP_PATH + File.separator + "uploads";
-        System.out.println("upload file path: "+ uploadFilePath);
 
         File uploadFolder = new File(uploadFilePath);
         if (!uploadFolder.exists()) {
@@ -49,35 +40,36 @@ public class ImageController extends HttpServlet {
         //write all uploaded files
         PrintWriter writer = response.getWriter();
 
-        for (Part part : request.getParts()) {
-            if (part != null && part.getSize() > 0) {
-                String fileName = part.getSubmittedFileName();
-                System.out.println("file name: "+fileName);
-                String contentType = part.getContentType();
+        try {
+            for (Part part : request.getParts()) {
+                if (part != null && part.getSize() > 0) {
+                    String fileName = part.getSubmittedFileName();
+                    String contentType = part.getContentType();
 
-                // allows only JPG files to be uploaded
-                if (!contentType.equalsIgnoreCase("image/jpeg")) {
-                    System.out.println("file type not supported");
-                    continue;
+                    // allows only JPG files to be uploaded
+                    if (!contentType.equalsIgnoreCase("image/jpeg")) {
+                        writer.println("fail");
+                        writer.close();
+                        writer.flush();
+                        continue;
+                    }
+
+                    InputStream fileContent = part.getInputStream();
+                    String filePath = uploadFilePath + File.separator + fileName;
+                    File dir = new File(filePath);
+                    Files.copy(fileContent, dir.toPath());
+
+                    //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
+                    Double[] prediction = {3.0, 0.77};
+                    writer.println("score:" + prediction[0] + ",accuracy:" + prediction[1]);
+                    writer.close();
+                    writer.flush();
                 }
-                System.out.println("content type: "+contentType);
-
-                //part.write(uploadFilePath + File.separator + fileName);
-                InputStream fileContent = part.getInputStream();
-                String filePath = uploadFilePath + File.separator + fileName;
-                File dir = new File(filePath);
-                Files.copy(fileContent, dir.toPath());
-
-                //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-                Double[] prediction = {3.0, 0.77};
-                System.out.println("prediction done"+ Arrays.asList(prediction));
-                //try{Quickstart.GetData();} catch (Exception e) {}
-                writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]);
-                writer.close();
-                writer.flush();
-
             }
+        } catch (Exception e) {
+            writer.println(0);
+            writer.close();
+            writer.flush();
         }
-
     }
 }
