@@ -59,8 +59,8 @@ public class ImageController extends HttpServlet {
                     File dir = new File(filePath);
                     Files.copy(fileContent, dir.toPath());
 
-                    Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-                    //Double[] prediction = {3.0, 0.77};
+                    //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
+                    Double[] prediction = {3.0, 0.77};
                     writer.println("score:" + prediction[0] + ",accuracy:" + prediction[1]);
                     writer.close();
                     writer.flush();

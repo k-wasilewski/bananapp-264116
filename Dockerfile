@@ -1,3 +1,3 @@
-FROM gcr.io/google_appengine/openjdk
-ADD target/bananapp-264116-1.0-SNAPSHOT.jar app.jar
-CMD [ "java","-jar","/app.jar"]
+FROM tomcat:9-jre8-alpine
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY target/bananapp-264116-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war

@@ -1,0 +1,7 @@
+FROM gcr.io/google-appengine/jetty
+
+# The application's war file
+ARG WAR_FILE=target/bananapp-264116-1.0-SNAPSHOT.war
+
+ADD ${WAR_FILE} $JETTY_BASE/webapps/root.war
+
