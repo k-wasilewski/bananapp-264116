@@ -30,7 +30,7 @@ public class AuthImageController extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        String APP_PATH = "/home/kuba/Desktop/CodersLab/spring-and-react/target/classes/public/auth";
+        String APP_PATH = "/home/kuba/Pulpit/CodersLab/spring-and-react/target/classes/public/auth";
         String uploadFilePath = APP_PATH + File.separator + uname;
 
         File uploadFolder = new File(uploadFilePath);
@@ -59,8 +59,8 @@ public class AuthImageController extends HttpServlet {
                 File dir = new File(filePath);
                 Files.copy(fileContent, dir.toPath());
 
-                Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-                //Double[] prediction = {3.0, 0.77};    //mockup
+                //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
+                Double[] prediction = {3.0, 0.77};    //mockup
                 writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]+",filename:"+fileName+"END");
                 writer.close();
                 writer.flush();
@@ -68,4 +68,3 @@ public class AuthImageController extends HttpServlet {
         }
     }
 }
-

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +30,7 @@ public class ImageController extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        String APP_PATH = "/home/kuba/Desktop/CodersLab/bananapp-264116";
+        String APP_PATH = "/home/kuba/Pulpit/CodersLab/bananapp-264116";
         String uploadFilePath = APP_PATH + File.separator + "uploads";
 
         File uploadFolder = new File(uploadFilePath);
@@ -59,8 +60,8 @@ public class ImageController extends HttpServlet {
                     File dir = new File(filePath);
                     Files.copy(fileContent, dir.toPath());
 
-                    Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-                    //Double[] prediction = {3.0, 0.77};    //mockup
+                    //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
+                    Double[] prediction = {3.0, 0.77};    //mockup
                     writer.println("score:" + prediction[0] + ",accuracy:" + prediction[1]);
                     writer.close();
                     writer.flush();
