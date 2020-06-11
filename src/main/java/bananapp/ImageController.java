@@ -30,7 +30,7 @@ public class ImageController extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        String APP_PATH = "/home/kuba/Pulpit/CodersLab/bananapp-264116";
+        String APP_PATH = "/home/kuba/bananapp-264116";
         String uploadFilePath = APP_PATH + File.separator + "uploads";
 
         File uploadFolder = new File(uploadFilePath);
