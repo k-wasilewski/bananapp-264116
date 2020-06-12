@@ -41,30 +41,41 @@ public class AuthImageController extends HttpServlet {
         //write all uploaded files
         PrintWriter writer = response.getWriter();
 
-        for (Part part : request.getParts()) {
-            if (part != null && part.getSize() > 0) {
-                String fileName = part.getSubmittedFileName();
-                String contentType = part.getContentType();
+        try {
+            for (Part part : request.getParts()) {
+                if (part != null && part.getSize() > 0) {
+                    String fileName = part.getSubmittedFileName();
+                    String contentType = part.getContentType();
 
-                // allows only JPG files to be uploaded
-                if (!contentType.equalsIgnoreCase("image/jpeg")) {
-                    writer.println("fail");
+                    // allows only JPG files to be uploaded
+                    if (!contentType.equalsIgnoreCase("image/jpeg")) {
+                        writer.println("fail");
+                        writer.close();
+                        writer.flush();
+                        continue;
+                    }
+
+                    InputStream fileContent = part.getInputStream();
+                    String filePath = uploadFilePath + File.separator + fileName;
+                    File dir = new File(filePath);
+                    while (dir.exists()) {
+                        fileName = fileName.replaceFirst("[.][^.]+$", "")+"1.jpg";
+                        filePath = uploadFilePath + File.separator + fileName;
+                        dir = new File(filePath);
+                    }
+                    Files.copy(fileContent, dir.toPath());
+
+                    //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
+                    Double[] prediction = {3.0, 0.77};    //mockup
+                    writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]+",filename:"+fileName+"END");
                     writer.close();
                     writer.flush();
-                    continue;
                 }
-
-                InputStream fileContent = part.getInputStream();
-                String filePath = uploadFilePath + File.separator + fileName;
-                File dir = new File(filePath);
-                Files.copy(fileContent, dir.toPath());
-
-                //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-                Double[] prediction = {3.0, 0.77};    //mockup
-                writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]+",filename:"+fileName+"END");
-                writer.close();
-                writer.flush();
             }
+        } catch (Exception e) {
+            writer.println(0);
+            writer.close();
+            writer.flush();
         }
     }
 }
