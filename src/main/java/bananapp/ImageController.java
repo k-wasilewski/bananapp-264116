@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Random;
 import javax.servlet.ServletException;
@@ -58,6 +59,11 @@ public class ImageController extends HttpServlet {
                     InputStream fileContent = part.getInputStream();
                     String filePath = uploadFilePath + File.separator + fileName;
                     File dir = new File(filePath);
+                    while (dir.exists()) {
+                        fileName = fileName.replaceFirst("[.][^.]+$", "")+"1.jpg";
+                        filePath = uploadFilePath + File.separator + fileName;
+                        dir = new File(filePath);
+                    }
                     Files.copy(fileContent, dir.toPath());
 
                     //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
