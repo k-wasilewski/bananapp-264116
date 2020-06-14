@@ -1,4 +1,4 @@
-package bananapp;
+package bananapp.controllers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
