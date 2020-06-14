@@ -1,5 +1,8 @@
 package bananapp.controllers;
 
+import bananapp.POJOs.Prediction;
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,8 +95,12 @@ public class AuthImageController extends HttpServlet {
     private void writePrediction(String projectId, String modelId,
                                    String fileName, PrintWriter writer) {
         //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-        Double[] prediction = {3.0, 0.77};    //mockup
-        writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]+",filename:"+fileName+"END");
+        Double[] predictionValues = {3.0, 0.77};    //mockup
+        //writer.println("score:"+prediction[0]+",accuracy:"+prediction[1]+",filename:"+fileName+"END");
+        Prediction prediction = new Prediction(predictionValues[0],
+                predictionValues[1], fileName);
+        String json = new Gson().toJson(prediction);
+        writer.write(json);
         writer.close();
         writer.flush();
     }

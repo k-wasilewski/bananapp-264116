@@ -1,13 +1,13 @@
 package bananapp.controllers;
 
+import bananapp.POJOs.Prediction;
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ public class ImageController extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        response.setContentType("text/html");
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         String uploadFilePath = createAndGetDir();
@@ -94,8 +94,12 @@ public class ImageController extends HttpServlet {
     private void writePrediction(String projectId, String modelId,
                                  String fileName, PrintWriter writer) {
         //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
-        Double[] prediction = {3.0, 0.77};    //mockup
-        writer.println("score:" + prediction[0] + ",accuracy:" + prediction[1]);
+        Double[] predictionValues = {3.0, 0.77};    //mockup
+        //writer.println("score:" + prediction[0] + ",accuracy:" + prediction[1]);
+        Prediction prediction = new Prediction(predictionValues[0],
+                predictionValues[1]);
+        String json = new Gson().toJson(prediction);
+        writer.write(json);
         writer.close();
         writer.flush();
     }
