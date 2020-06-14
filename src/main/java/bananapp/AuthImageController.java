@@ -30,7 +30,9 @@ public class AuthImageController extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        String APP_PATH = "/home/kuba/Desktop/projects/bananapp-react/public/auth";
+        String systemuser = System.getProperty("user.name");
+
+        String APP_PATH = "/home/"+systemuser+"/bananapp/auth";
         String uploadFilePath = APP_PATH + File.separator + uname;
 
         File uploadFolder = new File(uploadFilePath);
@@ -58,12 +60,15 @@ public class AuthImageController extends HttpServlet {
                     InputStream fileContent = part.getInputStream();
                     String filePath = uploadFilePath + File.separator + fileName;
                     File dir = new File(filePath);
+
                     while (dir.exists()) {
                         fileName = fileName.replaceFirst("[.][^.]+$", "")+"1.jpg";
                         filePath = uploadFilePath + File.separator + fileName;
                         dir = new File(filePath);
                     }
+
                     Files.copy(fileContent, dir.toPath());
+
 
                     //Double[] prediction = VisionClassificationPredict.predict(projectId, modelId, filePath);
                     Double[] prediction = {3.0, 0.77};    //mockup
